@@ -207,9 +207,7 @@ class Create extends Component
 
             if($this->existe == true){
                 $persona = Persona::where('id_persona', $this->empleado_existente)->first();
-                // dd($persona);
             }else{
-                // dd('El empleado no existe');
                 $persona = new Persona();
                 $persona->nombres_persona = $this->nombre;
                 $persona->apellido_pat_persona = $this->apellido_paterno;
@@ -218,6 +216,16 @@ class Create extends Component
                 $persona->fecha_naci_persona = $this->fecha_nacimiento;
                 $persona->genero_persona = $this->genero;
                 $persona->save();
+            }
+
+            $validar_contratos_existentes = Empleado::where('id_persona', $persona->id_persona)->where('estado_emp', 1)->get();
+            if($validar_contratos_existentes->count() > 0){
+                $this->dispatch(
+                    'toast-basico',
+                    mensaje: 'El empleado ya tiene un contrato activo',
+                    type: 'error'
+                );
+                return;
             }
 
             $empleado = new Empleado();
@@ -274,7 +282,7 @@ class Create extends Component
             dd($e);
             $this->dispatch(
                 'toast-basico',
-                mensaje: 'Ocurrió un error al guardar el empleado'. $e->getMessage(),
+                mensaje: 'Ocurrió un error al guardar el empleado - '. $e->getMessage(),
                 type: 'error'
             );
         }

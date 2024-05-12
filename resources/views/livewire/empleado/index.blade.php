@@ -119,7 +119,7 @@
                                                         <span class="status-dot status-dot-animated"></span>
                                                         Contratado
                                                     </span>
-                                                @else
+                                                @elseif ($item->estado_emp == 0)
                                                     <span class="status status-red px-3 py-2">
                                                         <span class="status-dot status-dot-animated"></span>
                                                         Inactivo

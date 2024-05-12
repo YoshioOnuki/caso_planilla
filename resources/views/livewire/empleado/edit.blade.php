@@ -258,7 +258,7 @@
                                             </div>
                                             @if($modalidad == 1)
                                                 @php
-                                                    $contrato_emp = App\Models\Empleado::where('estado_emp', 1)->where('id_persona', $id_persona)->where('id_emp', '!=', $id_emp)->first();
+                                                    $contrato_emp = App\Models\Empleado::comparePersona($id_persona, $id_emp)->permisoContrato()->first();
                                                 @endphp
                                                 @if(!$contrato_emp)
                                                     <div class="col-lg-12">

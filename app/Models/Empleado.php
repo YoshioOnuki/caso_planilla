@@ -19,6 +19,7 @@ class Empleado extends Model
         'fecha_ingreso_emp',
         'fecha_egreso_emp',
         'estado_emp',
+        'permiso_contrato_emp',
         'id_persona',
         'id_area',
         'id_modalidad',
@@ -63,6 +64,26 @@ class Empleado extends Model
     public function getNombreCompletoAttribute()
     {
         return $this->persona->apellido_pat_persona . ' ' . $this->persona->apellido_mat_persona . ', ' . $this->persona->nombres_persona;
+    }
+
+    public function scopeActivo($query)
+    {
+        return $query->where('estado_emp', 1);
+    }
+
+    public function scopeInactivo($query)
+    {
+        return $query->where('estado_emp', 0);
+    }
+
+    public function scopeComparePersona($query, $id_persona, $id_emp)
+    {
+        return $query->where('id_persona', $id_persona)->where('id_emp', '!=', $id_emp);
+    }
+
+    public function scopePermisoContrato($query)
+    {
+        return $query->where('permiso_contrato_emp', 1);
     }
 
     public function scopeSearch($query, $search)

@@ -143,7 +143,11 @@ class Edit extends Component
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            session(['mensaje_guardar' => 'error']);
+            $this->dispatch(
+                'toast-basico',
+                mensaje: 'Error al guardar empleado',
+                type: 'success'
+            );
         }
         
         session(['mensaje_guardar' => 'editar']);
