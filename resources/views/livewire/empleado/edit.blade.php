@@ -257,24 +257,29 @@
                                                 @endif
                                             </div>
                                             @if($modalidad == 1)
-                                                <div class="col-lg-12">
-                                                    <div class="form-label">Estado</div>
-                                                    <div>
-                                                        @if($modo === 'ver')
-                                                            <span class="status status-{{ $estado ? 'teal' : 'danger' }} px-3 py-2">
-                                                                <span class="status-dot status-dot-animated"></span>
-                                                                {{ $estado ? 'Contratado' : 'Inactivo' }}
-                                                            </span>
-                                                        @else
-                                                            <label class="form-check form-check-inline">
-                                                                <input
-                                                                    class="form-check-input @error('estado') is-invalid @enderror"
-                                                                    type="checkbox" wire:model.live="estado" {{ $estado ? 'checked' : '' }} />
-                                                                <span class="form-check-label">Contratado</span>
-                                                            </label>
-                                                        @endif
+                                                @php
+                                                    $contrato_emp = App\Models\Empleado::where('estado_emp', 1)->where('id_persona', $id_persona)->where('id_emp', '!=', $id_emp)->first();
+                                                @endphp
+                                                @if(!$contrato_emp)
+                                                    <div class="col-lg-12">
+                                                        <div class="form-label">Estado</div>
+                                                        <div>
+                                                            @if($modo === 'ver')
+                                                                <span class="status status-{{ $estado ? 'teal' : 'danger' }} px-3 py-2">
+                                                                    <span class="status-dot status-dot-animated"></span>
+                                                                    {{ $estado ? 'Contratado' : 'Inactivo' }}
+                                                                </span>
+                                                            @else
+                                                                <label class="form-check form-check-inline">
+                                                                    <input
+                                                                        class="form-check-input @error('estado') is-invalid @enderror"
+                                                                        type="checkbox" wire:model.live="estado" {{ $estado ? 'checked' : '' }} />
+                                                                    <span class="form-check-label">Contratado</span>
+                                                                </label>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             @endif
                                         </div>
                                     </div>

@@ -44,9 +44,12 @@ class Edit extends Component
     public $ant_empresa;
     public $estado;
 
+    public $id_persona;
+
     public function mount($id_emp)
     {
         $this->id_emp = $id_emp;
+        $this->id_persona = Empleado::find($id_emp)->id_persona;
         $this->modo = session('modo');
         $this->titulo = $this->modo === 'ver' ? 'Ver Empleado' : 'Editar Empleado';
 
