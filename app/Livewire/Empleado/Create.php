@@ -42,6 +42,8 @@ class Create extends Component
     #[Validate('required')]
     public $modalidad;
 
+    public $existe = false;
+
     //Funcion update, si la modalidad es 'Plazo Indeterminado' la fecha de egreso debe ser nula, si la modalidad es 'Plazo Determinado' la fecha de egreso debe ser obligatoria
     public function updatedModalidad($value)
     {
@@ -196,10 +198,12 @@ class Create extends Component
     {
         $area_model = Area::where('estado_area', 1)->get();
         $modalidad_model = Modalidad::where('estado_modalidad', 1)->get();
+        $persona_model = Persona::noAdmin()->get();
 
         return view('livewire.empleado.create', [
             'area_model' => $area_model,
             'modalidad_model' => $modalidad_model,
+            'persona_model' => $persona_model,
         ]);
     }
 }

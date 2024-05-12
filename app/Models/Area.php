@@ -24,6 +24,11 @@ class Area extends Model
     {
         return $this->hasMany(Empleado::class, 'id_area');
     }
+    
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'id_area');
+    }
 
     protected static function boot()
     {

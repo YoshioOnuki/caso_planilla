@@ -6,11 +6,11 @@
                     <div class="page-pretitle">
                         <ol class="breadcrumb breadcrumb-arrows" aria-label="breadcrumbs">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="#">Empleados</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="#">Contrato de Empleados</a></li>
                         </ol>
                     </div>
                     <h2 class="page-title text-uppercase">
-                        Empleados
+                        Contrato de Empleados
                     </h2>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
@@ -23,7 +23,7 @@
                                 <path d="M12 5l0 14" />
                                 <path d="M5 12l14 0" />
                             </svg>
-                            Crear empleado
+                            Crear contrato
                         </a>
                         <a href="{{ route('empleados.crear') }}" class="btn btn-primary d-sm-none btn-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -75,6 +75,7 @@
                                         <th>Empleado</th>
                                         <th>Salario</th>
                                         <th>F. Ingreso</th>
+                                        <th>F.Egreso</th>
                                         <th>Estado</th>
                                         <th>Area</th>
                                         <th>Modalidad</th>
@@ -110,6 +111,9 @@
                                                 {{ formatFecha($item->fecha_ingreso_emp) }}
                                             </td>
                                             <td>
+                                                {{ $item->fecha_egreso_emp ? formatFecha($item->fecha_egreso_emp) : 'N/A' }}
+                                            </td>
+                                            <td>
                                                 @if ($item->estado_emp == 1)
                                                     <span class="status status-teal px-3 py-2">
                                                         <span class="status-dot status-dot-animated"></span>
@@ -131,7 +135,7 @@
                                             <td>
                                                 <div class="btn-list flex-nowrap">
                                                     <a href="{{ route('empleados.salario', $item->id_emp) }}" class="btn btn-cyan">
-                                                        Historial de salario
+                                                        Salarios
                                                     </a>
                                                     <div class="dropdown">
                                                         <button class="btn dropdown-toggle align-text-top"
@@ -155,9 +159,9 @@
                                     @empty
                                         @if ($empleados->count() == 0 && $search != '')
                                             <tr>
-                                                <td colspan="7">
+                                                <td colspan="9">
                                                     <div class="text-center"
-                                                        style="padding-bottom: 5rem; padding-top: 5rem;">
+                                                        style="padding-bottom: 2rem; padding-top: 2rem;">
                                                         <span class="text-secondary">
                                                             No se encontraron resultados para
                                                             "<strong>{{ $search }}</strong>"
@@ -167,9 +171,9 @@
                                             </tr>
                                         @else
                                             <tr>
-                                                <td colspan="7">
+                                                <td colspan="9">
                                                     <div class="text-center"
-                                                        style="padding-bottom: 5rem; padding-top: 5rem;">
+                                                        style="padding-bottom: 2rem; padding-top: 2rem;">
                                                         <span class="text-secondary">
                                                             No hay empleados registrados
                                                         </span>

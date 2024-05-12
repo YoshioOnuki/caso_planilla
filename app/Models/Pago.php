@@ -32,6 +32,11 @@ class Pago extends Model
         return $this->belongsTo(Area::class, 'id_area');
     }
 
+    public function historialSalario()
+    {
+        return $this->belongsTo(HistorialSalario::class, 'id_historial');
+    }
+
     protected static function boot()
     {
         parent::boot();

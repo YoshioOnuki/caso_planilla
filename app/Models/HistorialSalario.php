@@ -25,6 +25,11 @@ class HistorialSalario extends Model
         return $this->belongsTo(Empleado::class, 'id_emp');
     }
 
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'id_historial');
+    }
+
     public $timestamps = false;
 
 }

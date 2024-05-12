@@ -39,6 +39,14 @@ class Persona extends Model
         return $this->usuario->first()->ruta_foto_usuario ?? 'media/usuario.webp';
     }
 
+    // scope para todas las personas que no tengan rol de administrador(1)
+    public function scopeNoAdmin($query)
+    {
+        return $query->whereDoesntHave('usuario', function ($query) {
+            $query->where('id_rol', 1);
+        });
+    }
+
     protected static function boot()
     {
         parent::boot();

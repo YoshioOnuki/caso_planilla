@@ -243,7 +243,8 @@
                                                             Seleccione una modalidad
                                                         </option>
                                                         @foreach ($modalidad_model as $item)
-                                                            <option value="{{ $item->id_modalidad }}">
+                                                            <option wire:key="{{ $item->id_modalidad }}"
+                                                            value="{{ $item->id_modalidad }}">
                                                                 {{ $item->nombre_modalidad }}
                                                             </option>
                                                         @endforeach
@@ -255,24 +256,26 @@
                                                     @enderror
                                                 @endif
                                             </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-label">Estado</div>
-                                                <div>
-                                                    @if($modo === 'ver')
-                                                        <span class="status status-{{ $estado ? 'teal' : 'danger' }} px-3 py-2">
-                                                            <span class="status-dot status-dot-animated"></span>
-                                                            {{ $estado ? 'Contratado' : 'Inactivo' }}
-                                                        </span>
-                                                    @else
-                                                        <label class="form-check form-check-inline">
-                                                            <input
-                                                                class="form-check-input @error('estado') is-invalid @enderror"
-                                                                type="checkbox" wire:model.live="estado" {{ $estado ? 'checked' : '' }} />
-                                                            <span class="form-check-label">Contratado</span>
-                                                        </label>
-                                                    @endif
+                                            @if($modalidad == 1)
+                                                <div class="col-lg-12">
+                                                    <div class="form-label">Estado</div>
+                                                    <div>
+                                                        @if($modo === 'ver')
+                                                            <span class="status status-{{ $estado ? 'teal' : 'danger' }} px-3 py-2">
+                                                                <span class="status-dot status-dot-animated"></span>
+                                                                {{ $estado ? 'Contratado' : 'Inactivo' }}
+                                                            </span>
+                                                        @else
+                                                            <label class="form-check form-check-inline">
+                                                                <input
+                                                                    class="form-check-input @error('estado') is-invalid @enderror"
+                                                                    type="checkbox" wire:model.live="estado" {{ $estado ? 'checked' : '' }} />
+                                                                <span class="form-check-label">Contratado</span>
+                                                            </label>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

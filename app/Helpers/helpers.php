@@ -74,22 +74,28 @@ if (!function_exists('generarCodigoEmpleado')) {
     function generarCodigoEmpleado()
     {
         $emp = Empleado::orderBy('id_emp', 'desc')->first();
-        $id = ltrim(substr($emp->codigo_emp, 4), '0');
-        $id++;
 
-        $codigo = 'EMP';
+        // Si no hay empleados registrados
+        if (!$emp) {
+            return 'EMP0001';
+        }else{
+            $id = ltrim(substr($emp->codigo_emp, 3), '0');
+            $id++;
 
-        if ($id < 10) {
-            $codigo .= '000' . $id;
-        } elseif ($id < 100) {
-            $codigo .= '00' . $id;
-        } elseif ($id < 1000) {
-            $codigo .= '0' . $id;
-        } else {
-            $codigo .= $id;
+            $codigo = 'EMP';
+
+            if ($id < 10) {
+                $codigo .= '000' . $id;
+            } elseif ($id < 100) {
+                $codigo .= '00' . $id;
+            } elseif ($id < 1000) {
+                $codigo .= '0' . $id;
+            } else {
+                $codigo .= $id;
+            }
+
+            return $codigo;
         }
-
-        return $codigo;
     }
 }
 

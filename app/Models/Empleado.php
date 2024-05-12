@@ -49,6 +49,17 @@ class Empleado extends Model
         return $this->belongsTo(JornadaLaboral::class, 'id_jornada_lab');
     }
 
+    public function pago()
+    {
+        return $this->hasMany(Pago::class, 'id_emp');
+    }
+
+    public function historialSalario()
+    {
+        return $this->hasMany(HistorialSalario::class, 'id_emp');
+    }
+
+
     public function getNombreCompletoAttribute()
     {
         return $this->persona->apellido_pat_persona . ' ' . $this->persona->apellido_mat_persona . ', ' . $this->persona->nombres_persona;

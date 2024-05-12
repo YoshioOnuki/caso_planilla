@@ -9,6 +9,7 @@ use App\Livewire\Empleado\Index as EmpleadoIndex;
 use App\Livewire\Empleado\Salario as EmpleadoSalario;
 use App\Livewire\Home\Index as HomeIndex;
 use App\Livewire\Modalidad\Index as ModalidadIndex;
+use App\Livewire\Pago\Index as PagosIndex;
 use App\Livewire\Perfil\Index as PerfilIndex;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,9 @@ Route::middleware(['auth'])->group(function () {
         ->name('empleados.crear');
     Route::get('/empleados/{id_emp}/salario', EmpleadoSalario::class)
         ->name('empleados.salario');
+
+    Route::get('/pagos', PagosIndex::class)
+        ->name('pagos');
 
     Route::get('/beneficios', BeneficioIndex::class)
         ->name('beneficios');

@@ -121,6 +121,10 @@ class Edit extends Component
             $empleado->id_area = $this->area;
             $empleado->id_modalidad = $this->modalidad;
             $empleado->id_jornada_lab = $this->jornada_laboral;
+            if($this->estado == null)
+            {
+                $this->estado = 0;
+            }
             $empleado->estado_emp = $this->estado;
             $empleado->save();
 

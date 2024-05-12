@@ -4,6 +4,7 @@ namespace App\Livewire\Empleado;
 
 use App\Models\Empleado;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,6 +14,9 @@ class Index extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+    #[Url('mostrar')]
+    public $mostrar_paginate = 10;
+    
     public $search = '';
 
     public function datos($id_emp, $modo)
@@ -37,11 +41,30 @@ class Index extends Component
         }
     }
 
+    // Cambiar de estado si la fecha de egreso es menor o igual a la fecha actual
+    public function cambiar_estado()
+    {
+        $empleados = Empleado::all();
+        foreach ($empleados as $empleado) {
+            if ($empleado->fecha_egreso_emp <= date('Y-m-d') && $empleado->fecha_egreso_emp != null && $empleado->id_modalidad == 2) {
+                $empleado->estado_emp = 0;
+                $empleado->save();
+            }elseif($empleado->fecha_egreso_emp > date('Y-m-d') && $empleado->fecha_egreso_emp != null && $empleado->id_modalidad == 2){
+                $empleado->estado_emp = 1;
+                $empleado->save();
+            }
+        }
+    }
+
+    public function mount()
+    {
+        $this->cambiar_estado();
+    }
+
     public function render()
     {
         $empleados = Empleado::search($this->search)
-            ->where('estado_emp', 1)
-            ->paginate(10);
+            ->paginate($this->mostrar_paginate);
 
         return view('livewire.empleado.index', [
             'empleados' => $empleados,
