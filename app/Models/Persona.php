@@ -28,6 +28,11 @@ class Persona extends Model
         return $this->hasMany(Usuario::class, 'id_persona');
     }
 
+    public function empleado()
+    {
+        return $this->hasOne(Empleado::class, 'id_persona');
+    }
+
     public function getSoloPrimerosNombresAttribute()
     {
         $nombres = explode(' ', $this->nombres_persona);
@@ -39,11 +44,18 @@ class Persona extends Model
         return $this->usuario->first()->ruta_foto_usuario ?? 'media/usuario.webp';
     }
 
-    // scope para todas las personas que no tengan rol de administrador(1)
     public function scopeNoAdmin($query)
     {
         return $query->whereDoesntHave('usuario', function ($query) {
             $query->where('id_rol', 1);
+        });
+    }
+
+    // persona que tenga en la tabla empleados un registro con estado 0
+    public function scopeEmpleadoInactivo($query)
+    {
+        return $query->whereHas('empleado', function ($query) {
+            $query->where('estado_emp', 0);
         });
     }
 

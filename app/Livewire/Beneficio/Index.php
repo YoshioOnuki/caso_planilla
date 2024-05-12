@@ -11,7 +11,7 @@ class Index extends Component
 {
     public function render()
     {
-        $beneficio = Beneficio::all();
+        $beneficio = Beneficio::all()->orderBy('id_beneficio', 'desc');
         
         return view('livewire.beneficio.index', [
             'beneficio' => $beneficio,

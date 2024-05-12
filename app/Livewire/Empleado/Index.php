@@ -64,6 +64,7 @@ class Index extends Component
     public function render()
     {
         $empleados = Empleado::search($this->search)
+            ->orderBy('id_emp', 'desc')
             ->paginate($this->mostrar_paginate);
 
         return view('livewire.empleado.index', [

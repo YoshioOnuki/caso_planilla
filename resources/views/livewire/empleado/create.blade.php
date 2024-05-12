@@ -45,11 +45,11 @@
                                             </div>
                                             @if($existe)
                                                 <div class="col-lg-12">
-                                                    <label for="empleado_existe" class="form-label required">
+                                                    <label for="empleado_existente" class="form-label required">
                                                         Empleado
                                                     </label>
-                                                    <select class="form-select @error('empleado_existe') is-invalid @enderror"
-                                                        id="empleado_existe" wire:model.live="empleado_existe">
+                                                    <select class="form-select @error('empleado_existente') is-invalid @enderror"
+                                                        id="empleado_existente" wire:model.live="empleado_existente">
                                                         <option value="">
                                                             Seleccione un empleado
                                                         </option>
@@ -59,7 +59,7 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                    @error('empleado_existe')
+                                                    @error('empleado_existente')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
                                                         </div>

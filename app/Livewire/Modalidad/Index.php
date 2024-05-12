@@ -11,7 +11,7 @@ class Index extends Component
 {
     public function render()
     {
-        $modalidad = Modalidad::all();
+        $modalidad = Modalidad::all()->orderBy('id_modalidad', 'desc');
 
         return view('livewire.modalidad.index', [
             'modalidad' => $modalidad,

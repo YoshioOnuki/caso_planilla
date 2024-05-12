@@ -43,40 +43,80 @@ class Create extends Component
     public $modalidad;
 
     public $existe = false;
+    #[Validate('nullable')]
+    public $empleado_existente;
 
     //Funcion update, si la modalidad es 'Plazo Indeterminado' la fecha de egreso debe ser nula, si la modalidad es 'Plazo Determinado' la fecha de egreso debe ser obligatoria
     public function updatedModalidad($value)
     {
         if ($value == 2) {
-            $this->validate([
-                'nombre' => 'required',
-                'apellido_paterno' => 'required',
-                'apellido_materno' => 'required',
-                'documento' => 'required',
-                'fecha_nacimiento' => 'required',
-                'genero' => 'required',
-                'salario' => 'required',
-                'fecha_ingreso' => 'required',
-                'fecha_egreso' => 'required',
-                'jornada_laboral' => 'required',
-                'area' => 'required',
-                'modalidad' => 'required',
-            ]);
+            if($this->existe == true){
+                $this->validate([
+                    'nombre' => 'nullable',
+                    'apellido_paterno' => 'nullable',
+                    'apellido_materno' => 'nullable',
+                    'documento' => 'nullable',
+                    'fecha_nacimiento' => 'nullable',
+                    'genero' => 'nullable',
+                    'salario' => 'required',
+                    'fecha_ingreso' => 'required',
+                    'fecha_egreso' => 'required',
+                    'jornada_laboral' => 'required',
+                    'area' => 'required',
+                    'modalidad' => 'required',
+                    'empleado_existente' => 'required',
+                ]);
+            }else{
+                $this->validate([
+                    'nombre' => 'required',
+                    'apellido_paterno' => 'required',
+                    'apellido_materno' => 'required',
+                    'documento' => 'required',
+                    'fecha_nacimiento' => 'required',
+                    'genero' => 'required',
+                    'salario' => 'required',
+                    'fecha_ingreso' => 'required',
+                    'fecha_egreso' => 'required',
+                    'jornada_laboral' => 'required',
+                    'area' => 'required',
+                    'modalidad' => 'required',
+                    'empleado_existente' => 'nullable',
+                ]);
+            }
         }else{
-            $this->validate([
-                'nombre' => 'required',
-                'apellido_paterno' => 'required',
-                'apellido_materno' => 'required',
-                'documento' => 'required',
-                'fecha_nacimiento' => 'required',
-                'genero' => 'required',
-                'salario' => 'required',
-                'fecha_ingreso' => 'required',
-                'fecha_egreso' => 'nullable',
-                'jornada_laboral' => 'required',
-                'area' => 'required',
-                'modalidad' => 'required',
-            ]);
+            if($this->existe == true){
+                $this->validate([
+                    'nombre' => 'nullable',
+                    'apellido_paterno' => 'nullable',
+                    'apellido_materno' => 'nullable',
+                    'documento' => 'nullable',
+                    'fecha_nacimiento' => 'nullable',
+                    'genero' => 'nullable',
+                    'salario' => 'required',
+                    'fecha_ingreso' => 'required',
+                    'fecha_egreso' => 'nullable',
+                    'jornada_laboral' => 'required',
+                    'area' => 'required',
+                    'modalidad' => 'required',
+                    'empleado_existente' => 'required',
+                ]);
+            }else{
+                $this->validate([
+                    'nombre' => 'required',
+                    'apellido_paterno' => 'required',
+                    'apellido_materno' => 'required',
+                    'documento' => 'required',
+                    'fecha_nacimiento' => 'required',
+                    'genero' => 'required',
+                    'salario' => 'required',
+                    'fecha_ingreso' => 'required',
+                    'fecha_egreso' => 'nullable',
+                    'jornada_laboral' => 'required',
+                    'area' => 'required',
+                    'modalidad' => 'required',
+                    'empleado_existente' => 'nullable',
+                ]);
+            }
         }
     }
 
@@ -89,49 +129,96 @@ class Create extends Component
     {
 
         if ($this->modalidad == 2) {
-            $this->validate([
-                'nombre' => 'required',
-                'apellido_paterno' => 'required',
-                'apellido_materno' => 'required',
-                'documento' => 'required',
-                'fecha_nacimiento' => 'required',
-                'genero' => 'required',
-                'salario' => 'required',
-                'fecha_ingreso' => 'required',
-                'fecha_egreso' => 'required',
-                'jornada_laboral' => 'required',
-                'area' => 'required',
-                'modalidad' => 'required',
-            ]);
+            if($this->existe == true){
+                $this->validate([
+                    'nombre' => 'nullable',
+                    'apellido_paterno' => 'nullable',
+                    'apellido_materno' => 'nullable',
+                    'documento' => 'nullable',
+                    'fecha_nacimiento' => 'nullable',
+                    'genero' => 'nullable',
+                    'salario' => 'required',
+                    'fecha_ingreso' => 'required',
+                    'fecha_egreso' => 'required',
+                    'jornada_laboral' => 'required',
+                    'area' => 'required',
+                    'modalidad' => 'required',
+                    'empleado_existente' => 'required',
+                ]);
+            }else{
+                $this->validate([
+                    'nombre' => 'required',
+                    'apellido_paterno' => 'required',
+                    'apellido_materno' => 'required',
+                    'documento' => 'required',
+                    'fecha_nacimiento' => 'required',
+                    'genero' => 'required',
+                    'salario' => 'required',
+                    'fecha_ingreso' => 'required',
+                    'fecha_egreso' => 'required',
+                    'jornada_laboral' => 'required',
+                    'area' => 'required',
+                    'modalidad' => 'required',
+                    'empleado_existente' => 'nullable',
+                ]);
+            }
+            
         }else{
-            $this->validate([
-                'nombre' => 'required',
-                'apellido_paterno' => 'required',
-                'apellido_materno' => 'required',
-                'documento' => 'required',
-                'fecha_nacimiento' => 'required',
-                'genero' => 'required',
-                'salario' => 'required',
-                'fecha_ingreso' => 'required',
-                'fecha_egreso' => 'nullable',
-                'jornada_laboral' => 'required',
-                'area' => 'required',
-                'modalidad' => 'required',
-            ]);
+            if($this->existe == true){
+                $this->validate([
+                    'nombre' => 'nullable',
+                    'apellido_paterno' => 'nullable',
+                    'apellido_materno' => 'nullable',
+                    'documento' => 'nullable',
+                    'fecha_nacimiento' => 'nullable',
+                    'genero' => 'nullable',
+                    'salario' => 'required',
+                    'fecha_ingreso' => 'required',
+                    'fecha_egreso' => 'nullable',
+                    'jornada_laboral' => 'required',
+                    'area' => 'required',
+                    'modalidad' => 'required',
+                    'empleado_existente' => 'required',
+                ]);
+            }else{
+                $this->validate([
+                    'nombre' => 'required',
+                    'apellido_paterno' => 'required',
+                    'apellido_materno' => 'required',
+                    'documento' => 'required',
+                    'fecha_nacimiento' => 'required',
+                    'genero' => 'required',
+                    'salario' => 'required',
+                    'fecha_ingreso' => 'required',
+                    'fecha_egreso' => 'nullable',
+                    'jornada_laboral' => 'required',
+                    'area' => 'required',
+                    'modalidad' => 'required',
+                    'empleado_existente' => 'nullable',
+                ]);
+            }
         }
 
         try {
 
             DB::beginTransaction();
 
-            $persona = new Persona();
-            $persona->nombres_persona = $this->nombre;
-            $persona->apellido_pat_persona = $this->apellido_paterno;
-            $persona->apellido_mat_persona = $this->apellido_materno;
-            $persona->documento_persona = $this->documento;
-            $persona->fecha_naci_persona = $this->fecha_nacimiento;
-            $persona->genero_persona = $this->genero;
-            $persona->save();
+            $persona = collect();
+
+            if($this->existe == true){
+                $persona = Persona::where('id_persona', $this->empleado_existente)->first();
+                // dd($persona);
+            }else{
+                // dd('El empleado no existe');
+                $persona = new Persona();
+                $persona->nombres_persona = $this->nombre;
+                $persona->apellido_pat_persona = $this->apellido_paterno;
+                $persona->apellido_mat_persona = $this->apellido_materno;
+                $persona->documento_persona = $this->documento;
+                $persona->fecha_naci_persona = $this->fecha_nacimiento;
+                $persona->genero_persona = $this->genero;
+                $persona->save();
+            }
 
             $empleado = new Empleado();
             $empleado->codigo_emp = generarCodigoEmpleado();
@@ -198,7 +285,7 @@ class Create extends Component
     {
         $area_model = Area::where('estado_area', 1)->get();
         $modalidad_model = Modalidad::where('estado_modalidad', 1)->get();
-        $persona_model = Persona::noAdmin()->get();
+        $persona_model = Persona::noAdmin()->empleadoInactivo()->get();
 
         return view('livewire.empleado.create', [
             'area_model' => $area_model,
