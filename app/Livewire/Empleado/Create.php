@@ -228,6 +228,13 @@ class Create extends Component
                 return;
             }
 
+            // Cambiar el estado de permiso_contrato_emp a 0
+            $permiso_contrato = Empleado::where('id_persona', $persona->id_persona)->where('permiso_contrato_emp', 1)->get();
+            foreach ($permiso_contrato as $permiso) {
+                $permiso->permiso_contrato_emp = 0;
+                $permiso->save();
+            }
+
             $empleado = new Empleado();
             $empleado->codigo_emp = generarCodigoEmpleado();
             $empleado->salario_emp = $this->salario;
@@ -236,6 +243,7 @@ class Create extends Component
                 $empleado->fecha_egreso_emp = $this->fecha_egreso;
             }
             $empleado->estado_emp = 1;
+            $empleado->permiso_contrato_emp = 1;
             $empleado->id_area = $this->area;
             $empleado->id_modalidad = $this->modalidad;
             $empleado->id_jornada_lab = $this->jornada_laboral;
