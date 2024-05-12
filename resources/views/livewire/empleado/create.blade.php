@@ -121,37 +121,6 @@
                                                 @enderror
                                             </div>
                                             <div class="col-lg-6">
-                                                <label for="salario" class="form-label required">
-                                                    Salario
-                                                </label>
-                                                <input type="number"
-                                                    class="form-control @error('salario') is-invalid @enderror"
-                                                    id="salario" wire:model.live="salario"placeholder="0.00"/>
-                                                @error('salario')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <label for="fecha_ingreso" class="form-label required">
-                                                    Fecha de Ingreso
-                                                </label>
-                                                <input type="date"
-                                                    class="form-control @error('fecha_ingreso') is-invalid @enderror"
-                                                    id="fecha_ingreso" wire:model.live="fecha_ingreso"
-                                                    min="{{ date('Y-m-d') }}"/>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <label for="fecha_egreso" class="form-label required">
-                                                    Fecha de Egreso
-                                                </label>
-                                                <input type="date"
-                                                    class="form-control @error('fecha_egreso') is-invalid @enderror"
-                                                    id="fecha_egreso" wire:model.live="fecha_egreso"
-                                                    min="{{ date('Y-m-d') }}"/>
-                                            </div>
-                                            <div class="col-lg-6">
                                                 <label for="jornada_laboral" class="form-label required">
                                                     Jornada Laboral
                                                 </label>
@@ -164,27 +133,6 @@
                                                     <option value="2">Medio tiempo</option>
                                                 </select>
                                                 @error('jornada_laboral')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label for="area" class="form-label required">
-                                                    Área
-                                                </label>
-                                                <select class="form-select @error('area') is-invalid @enderror"
-                                                    id="area" wire:model.live="area">
-                                                    <option value="">
-                                                        Seleccione un área
-                                                    </option>
-                                                    @foreach ($area_model as $item)
-                                                        <option value="{{ $item->id_area }}">
-                                                            {{ $item->nombre_area }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('area')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -211,6 +159,66 @@
                                                     </div>
                                                 @enderror
                                             </div>
+                                            <div class="col-lg-{{ $modalidad == 2 ? '3' : '6' }}">
+                                                <label for="fecha_ingreso" class="form-label required">
+                                                    Fecha de Ingreso
+                                                </label>
+                                                <input type="date"
+                                                    class="form-control @error('fecha_ingreso') is-invalid @enderror"
+                                                    id="fecha_ingreso" wire:model.live="fecha_ingreso"
+                                                    min="{{ date('Y-m-d') }}"/>
+                                                @error('fecha_ingreso')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            @if ($modalidad == 2)
+                                                <div class="col-lg-3">
+                                                    <label for="fecha_egreso" class="form-label {{ $modalidad == 2 ? 'required' : '' }}">
+                                                        Fecha de Egreso
+                                                    </label>
+                                                    <input type="date"
+                                                        class="form-control @error('fecha_egreso') is-invalid @enderror"
+                                                        id="fecha_egreso" wire:model.live="fecha_egreso"
+                                                        min="{{ date('Y-m-d') }}"/>
+                                                    @error('fecha_egreso')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                            @endif
+                                            <div class="col-lg-6">
+                                                <label for="area" class="form-label required">
+                                                    Área
+                                                </label>
+                                                <select class="form-select @error('area') is-invalid @enderror"
+                                                    id="area" wire:model.live="area">
+                                                    <option value="">
+                                                        Seleccione un área
+                                                    </option>
+                                                    @foreach ($area_model as $item)
+                                                        <option value="{{ $item->id_area }}">
+                                                            {{ $item->nombre_area }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('area')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label for="salario" class="form-label">
+                                                    Salario
+                                                </label>
+                                                <input type="number"
+                                                    class="form-control"
+                                                    id="salario" wire:model.live="salario"placeholder="0.00" disabled/>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>

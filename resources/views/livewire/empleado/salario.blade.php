@@ -7,11 +7,11 @@
                         <ol class="breadcrumb breadcrumb-arrows" aria-label="breadcrumbs">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('empleados') }}">Empleado</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="#">Salario</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="#">Historial de Salario</a></li>
                         </ol>
                     </div>
                     <h2 class="page-title text-uppercase">
-                        Salario del empleado
+                        Historial de Salario del empleado
                     </h2>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                                     {{ $empleado->persona->apellido_pat_persona }} - {{ $empleado->codigo_emp }}
                                 </h3>
                             </div>
-                            <div class="d-flex mb-2 align-items-center justify-content-between">
+                            {{-- <div class="d-flex mb-2 align-items-center justify-content-between">
                                 <div class="row g-5 w-100">
                                     <div class="col-md-3">
                                         <label for="salario_nuevo" class="form-label required">
@@ -64,7 +64,7 @@
                                     </div>
                                     
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="table-responsive">
                             <table class="table card-table table-vcenter text-nowrap table-striped  datatable">
@@ -74,6 +74,7 @@
                                         <th>Salario actual</th>
                                         <th>Salario anterior</th>
                                         <th>Fecha</th>
+                                        <th>N° pagos registrados</th>
                                         <th>Estado</th>
                                     </tr>
                                 </thead>
@@ -95,8 +96,22 @@
                                             <td>
                                                 {{ $item->fecha_cambio_historial }}
                                             </td>
+                                            @php
+                                                $pagos = App\Models\Pago::where('id_emp', $item->id_emp)->get();
+                                                $cantidad = 0;
+                                                foreach ($pagos as $pago)
+                                                {
+                                                    if ($pago->id_historial === $item->id_historial)
+                                                    {
+                                                        $cantidad++;
+                                                    }
+                                                }
+                                            @endphp
                                             <td>
-                                                @if ($item->salario_act_historial === $item->empleado->salario_emp)
+                                                {{ $cantidad }}
+                                            </td>
+                                            <td>
+                                                @if ($item->estado_historial === 1)
                                                     <span class="status status-primary px-3 py-2">
                                                         <span class="status-dot status-dot-animated"></span>
                                                         Vigente

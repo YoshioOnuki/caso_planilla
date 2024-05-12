@@ -131,7 +131,7 @@
                                             <td>
                                                 <div class="btn-list flex-nowrap">
                                                     <a href="{{ route('empleados.salario', $item->id_emp) }}" class="btn btn-cyan">
-                                                        Cambiar salario
+                                                        Historial de salario
                                                     </a>
                                                     <div class="dropdown">
                                                         <button class="btn dropdown-toggle align-text-top"

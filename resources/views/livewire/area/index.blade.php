@@ -42,6 +42,7 @@
                                     <tr>
                                         <th class="w-1">No.</th>
                                         <th>Área</th>
+                                        <th>Salario base</th>
                                         <th>Estado</th>
                                     </tr>
                                 </thead>
@@ -56,6 +57,9 @@
                                             </td>
                                             <td>
                                                 {{ $item->nombre_area }}
+                                            </td>
+                                            <td>
+                                                {{ $item->salario_base_area }}
                                             </td>
                                             <td>
                                                 @if ($item->estado_area === 1)

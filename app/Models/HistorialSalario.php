@@ -16,6 +16,7 @@ class HistorialSalario extends Model
         'salario_act_historial',
         'salario_ant_historial',
         'fecha_cambio_historial',
+        'estado_historial',
         'id_emp',
     ];
 

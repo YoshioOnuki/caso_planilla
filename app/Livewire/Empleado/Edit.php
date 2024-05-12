@@ -5,7 +5,9 @@ namespace App\Livewire\Empleado;
 use App\Models\Area;
 use App\Models\Empleado;
 use App\Models\EmpleadoBeneficio;
+use App\Models\HistorialSalario;
 use App\Models\Modalidad;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -89,25 +91,55 @@ class Edit extends Component
     {
         $this->validate();
 
-        $empleado = Empleado::find($this->id_emp);
-        $empleado->fecha_ingreso_emp = $this->fecha_ingreso;
-        $empleado->id_area = $this->area;
-        $empleado->id_modalidad = $this->modalidad;
-        $empleado->id_jornada_lab = $this->jornada_laboral;
-        $empleado->estado_emp = $this->estado;
-        $empleado->save();
+        try {
+            DB::beginTransaction();
 
-        $persona = $empleado->persona;
-        $persona->nombres_persona = $this->nombre;
-        $persona->apellido_pat_persona = $this->apellido_paterno;
-        $persona->apellido_mat_persona = $this->apellido_materno;
-        $persona->documento_persona = $this->documento;
-        $persona->fecha_naci_persona = $this->fecha_nacimiento;
-        $persona->genero_persona = $this->genero;
-        $persona->save();
+            $empleado = Empleado::find($this->id_emp);
+            $empleado->fecha_ingreso_emp = $this->fecha_ingreso;
+            if($empleado->id_area != $this->area)
+            {
+                $salario_ant = $empleado->salario_emp;
+                $empleado->salario_emp = Area::find($this->area)->salario_base_area;
 
-        session(['mensaje_guardar' => 'editar']);
+                // Historial de salario anterior se cambia a inactivo
+                $historial_ant = HistorialSalario::where('id_emp', $this->id_emp)
+                    ->where('estado_historial', 1)->first();
+                if($historial_ant)
+                {
+                    $historial_ant->estado_historial = 0;
+                    $historial_ant->save();
+                }
+                // Se genera el historial de salario
+                $historial = new HistorialSalario();
+                $historial->salario_act_historial = $empleado->salario_emp;
+                $historial->salario_ant_historial = $salario_ant;
+                $historial->fecha_cambio_historial = date('Y-m-d');
+                $historial->estado_historial = 1;
+                $historial->id_emp = $this->id_emp;
+                $historial->save();
+            }
+            $empleado->id_area = $this->area;
+            $empleado->id_modalidad = $this->modalidad;
+            $empleado->id_jornada_lab = $this->jornada_laboral;
+            $empleado->estado_emp = $this->estado;
+            $empleado->save();
+
+            $persona = $empleado->persona;
+            $persona->nombres_persona = $this->nombre;
+            $persona->apellido_pat_persona = $this->apellido_paterno;
+            $persona->apellido_mat_persona = $this->apellido_materno;
+            $persona->documento_persona = $this->documento;
+            $persona->fecha_naci_persona = $this->fecha_nacimiento;
+            $persona->genero_persona = $this->genero;
+            $persona->save();
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            session(['mensaje_guardar' => 'error']);
+        }
         
+        session(['mensaje_guardar' => 'editar']);
         return redirect()->route('empleados');
     }
 

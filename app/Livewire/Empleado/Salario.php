@@ -4,6 +4,7 @@ namespace App\Livewire\Empleado;
 
 use App\Models\Empleado;
 use App\Models\HistorialSalario;
+use App\Models\Pago;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -62,10 +63,13 @@ class Salario extends Component
     public function render()
     {
         $salarios = HistorialSalario::where('id_emp', $this->id_empleado)
-            ->orderBy('id_emp', 'desc')->get();
+            ->orderBy('id_historial', 'desc')->get();
+
+        $cantidad_pagos = Pago::where('id_emp', $this->id_empleado)->get();
 
         return view('livewire.empleado.salario', [
             'salarios' => $salarios,
+            'cantidad_pagos' => $cantidad_pagos,
         ]);
     }
 }

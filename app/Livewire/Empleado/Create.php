@@ -8,6 +8,7 @@ use App\Models\Empleado;
 use App\Models\HistorialSalario;
 use App\Models\Modalidad;
 use App\Models\Persona;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
@@ -41,9 +42,81 @@ class Create extends Component
     #[Validate('required')]
     public $modalidad;
 
+    //Funcion update, si la modalidad es 'Plazo Indeterminado' la fecha de egreso debe ser nula, si la modalidad es 'Plazo Determinado' la fecha de egreso debe ser obligatoria
+    public function updatedModalidad($value)
+    {
+        if ($value == 2) {
+            $this->validate([
+                'nombre' => 'required',
+                'apellido_paterno' => 'required',
+                'apellido_materno' => 'required',
+                'documento' => 'required',
+                'fecha_nacimiento' => 'required',
+                'genero' => 'required',
+                'salario' => 'required',
+                'fecha_ingreso' => 'required',
+                'fecha_egreso' => 'required',
+                'jornada_laboral' => 'required',
+                'area' => 'required',
+                'modalidad' => 'required',
+            ]);
+        }else{
+            $this->validate([
+                'nombre' => 'required',
+                'apellido_paterno' => 'required',
+                'apellido_materno' => 'required',
+                'documento' => 'required',
+                'fecha_nacimiento' => 'required',
+                'genero' => 'required',
+                'salario' => 'required',
+                'fecha_ingreso' => 'required',
+                'fecha_egreso' => 'nullable',
+                'jornada_laboral' => 'required',
+                'area' => 'required',
+                'modalidad' => 'required',
+            ]);
+        }
+    }
+
+    public function updatedArea($value)
+    {
+        $this->salario = Area::find($value)->salario_base_area;
+    }
+
     public function guardar()
     {
-        $this->validate();
+
+        if ($this->modalidad == 2) {
+            $this->validate([
+                'nombre' => 'required',
+                'apellido_paterno' => 'required',
+                'apellido_materno' => 'required',
+                'documento' => 'required',
+                'fecha_nacimiento' => 'required',
+                'genero' => 'required',
+                'salario' => 'required',
+                'fecha_ingreso' => 'required',
+                'fecha_egreso' => 'required',
+                'jornada_laboral' => 'required',
+                'area' => 'required',
+                'modalidad' => 'required',
+            ]);
+        }else{
+            $this->validate([
+                'nombre' => 'required',
+                'apellido_paterno' => 'required',
+                'apellido_materno' => 'required',
+                'documento' => 'required',
+                'fecha_nacimiento' => 'required',
+                'genero' => 'required',
+                'salario' => 'required',
+                'fecha_ingreso' => 'required',
+                'fecha_egreso' => 'nullable',
+                'jornada_laboral' => 'required',
+                'area' => 'required',
+                'modalidad' => 'required',
+            ]);
+        }
 
         try {
 
@@ -62,7 +135,9 @@ class Create extends Component
             $empleado->codigo_emp = generarCodigoEmpleado();
             $empleado->salario_emp = $this->salario;
             $empleado->fecha_ingreso_emp = $this->fecha_ingreso;
-            $empleado->fecha_egreso_emp = $this->fecha_egreso;
+            if ($this->modalidad == 2 && $this->fecha_egreso != null) {
+                $empleado->fecha_egreso_emp = $this->fecha_egreso;
+            }
             $empleado->estado_emp = 1;
             $empleado->id_area = $this->area;
             $empleado->id_modalidad = $this->modalidad;
@@ -74,12 +149,31 @@ class Create extends Component
             $historial->id_emp = $empleado->id_emp;
             $historial->salario_act_historial = $this->salario;
             $historial->fecha_cambio_historial = date('Y-m-d');
+            $historial->estado_historial = 1;
             $historial->save();
 
+            //Asignar beneficios de acuerdo al tiempo que estara en la empresa
             $beneficios = Beneficio::all();
             foreach ($beneficios as $beneficio) {
-                $empleado->beneficio()->attach($beneficio->id_bene);
+                if($empleado->id_modalidad == 1){
+                    $empleado->beneficio()->attach($beneficio->id_bene);
+                }else{
+                    if($beneficio->mes_bene == 0)
+                    {
+                        $empleado->beneficio()->attach($beneficio->id_bene);
+                    }else{
+                        $fechaIngreso = new DateTime($empleado->fecha_ingreso_emp);
+                        $mesIngreso = (int)$fechaIngreso->format('m'); // 'm' es el formato para el número del mes
+                        $fechaEgreso = new DateTime($empleado->fecha_egreso_emp);
+                        $mesEgreso = (int)$fechaEgreso->format('m'); // 'm' es el formato para el número del mes
+                        if($beneficio->mes_bene >= $mesIngreso && $beneficio->mes_bene <= $mesEgreso){
+                            $empleado->beneficio()->attach($beneficio->id_bene);
+                        }
+                    }
+                }
             }
+
+            // dd($empleado->beneficio);
 
             DB::commit();
 

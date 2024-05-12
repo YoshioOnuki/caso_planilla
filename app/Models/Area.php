@@ -16,6 +16,7 @@ class Area extends Model
     protected $fillable = [
         'id_area',
         'nombre_area',
+        'salario_base_area',
         'estado_area',
     ];
 
