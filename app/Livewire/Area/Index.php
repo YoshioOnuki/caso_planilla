@@ -11,7 +11,7 @@ class Index extends Component
 {
     public function render()
     {
-        $area = Area::all()->orderBy('id_area', 'desc');
+        $area = Area::all();
         
         return view('livewire.area.index', [
             'area' => $area,
